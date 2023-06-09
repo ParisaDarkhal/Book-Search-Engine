@@ -38,5 +38,22 @@ const resolvers = {
       const token = signToken(user);
       return token, user;
     },
+    // input is defined in typeDefs.js
+    saveBook: async (parent, { input }, context) => {
+      console.log("input :>> ", input);
+      // checks if there is a user object in the context
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          {
+            _id: context.user._id,
+          },
+          // addToSet makes sure the book is only added if there is not already in the array
+          { $addToSet: { savedBooks: bookData } },
+          { new: true }
+        ).populate("books");
+        return updatedUser;
+      }
+      throw new AuthenticationError("Please Log In to Save Books.");
+    },
   },
 };
