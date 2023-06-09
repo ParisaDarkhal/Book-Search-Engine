@@ -31,6 +31,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(routes);
+// app.get('*') sets up a GET route handler for all routes that haven't been matched by any previous route handlers. it ensures that for any undefined route, the server will serve the index.html file of a client-side application
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 db.once("open", () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
