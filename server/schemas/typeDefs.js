@@ -6,7 +6,8 @@ const typeDefs = gql`
   type User {
     _id: ID
     username: String
-    email: String! @constraint(format: "email")
+    #...  email: String! @constraint(format: "email")
+    email: String
     bookCount: Int
     savedBooks: [Book]
   }
