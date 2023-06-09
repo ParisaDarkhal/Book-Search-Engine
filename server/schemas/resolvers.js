@@ -17,4 +17,26 @@ const resolvers = {
       }
     },
   },
+
+  Mutation: {
+    addUser: async (parent, args) => {
+      const newUser = await User.create(args);
+      //   creates an authentication token passing newUser as argument
+      const token = signToken(newUser);
+      return { token, newUser };
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new AuthenticationError("Incorrect Credentials");
+      }
+      const correctPassWord = User.isCorrectPassword(password);
+      if (!correctPassWord) {
+        throw new AuthenticationError("Incorrect Credentials");
+      }
+      // if username and password both are correct, creates an authentication token passing user as argument
+      const token = signToken(user);
+      return token, user;
+    },
+  },
 };
