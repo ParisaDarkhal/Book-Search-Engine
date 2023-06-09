@@ -55,5 +55,18 @@ const resolvers = {
       }
       throw new AuthenticationError("Please Log In to Save Books.");
     },
+    removeBook: async (parent, { bookId }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedBooks: { bookId } } },
+          { new: true }
+        );
+        return updatedUser;
+      }
+      throw new AuthenticationError("Please Log In to Remove Books.");
+    },
   },
 };
+
+module.exports = resolvers;
