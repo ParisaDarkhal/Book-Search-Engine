@@ -4,8 +4,9 @@ import SearchBooks from "./pages/SearchBooks";
 import SavedBooks from "./pages/SavedBooks";
 import Navbar from "./components/Navbar";
 // Apollo
-import { ApolloProvider } from "@apollo/react-hooks";
-import ApolloClient from "apollo-boost";
+// import { ApolloProvider } from "@apollo/react-hooks"; //from stackoverflow
+// import ApolloClient from "apollo-boost"; //from stackoverflow
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"; // from class instructions
 
 //Create new Apollo client instance and retrieves the token from the localStora
 const client = new ApolloClient({
