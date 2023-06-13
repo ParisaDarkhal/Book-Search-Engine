@@ -16,6 +16,7 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "graphql-constraint-directive": "^5.1.1"
+    "graphql-constraint-directive": "^5.1.1",
+    "mongodb": "^5.6.0"
   }
 }
