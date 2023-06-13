@@ -5,7 +5,7 @@ const { ApolloServer } = require("apollo-server-express");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 const path = require("path");
-// const routes = require("./routes");
+
 const { authMiddleware } = require("./utils/auth");
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,28 +16,18 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-// to apply middleware for authorization
-// server.applyMiddleware({ app });
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// if we're in production, serve client/build as static assets
-// I think this one is not needed in gql
+// if we're in production, serve client/build as static assets I think this one is not needed in gql
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
-// app.use(routes);
-// app.get('*') sets up a GET route handler for all routes that haven't been matched by any
-//  previous route handlers. it ensures that for any undefined route, the server will serve
-//  the index.html file of a client-side application
+
+// app.get('*') sets up a GET route handler for all routes that haven't been matched by any previous route handlers. it ensures that for any undefined route, the server will serve the index.html file of a client-side application
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
-
-// db.once("open", () => {
-//   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
-// });
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
